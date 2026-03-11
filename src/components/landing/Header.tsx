@@ -61,14 +61,12 @@ export default function Header() {
             </a>
           ))}
           <div className="ml-2 flex items-center gap-2">
-            <a
-              href="https://gs-team-59.adalo.com/"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/signin"
               className="rounded-xl bg-gradient-to-r from-primary to-primary-dark px-5 py-2.5 text-sm font-bold text-white shadow-sm shadow-primary/25 transition-all duration-200 hover:opacity-95 hover:shadow-md hover:shadow-primary/30"
             >
               Start free
-            </a>
+            </Link>
             <a
               href={APP_STORE_URL}
               target="_blank"
@@ -126,15 +124,13 @@ export default function Header() {
                 {label}
               </a>
             ))}
-            <a
-              href="https://gs-team-59.adalo.com/"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/signin"
               className="mt-2 rounded-xl bg-gradient-to-r from-primary to-primary-dark px-4 py-3 text-center text-sm font-bold text-white"
               onClick={() => setMobileOpen(false)}
             >
               Start free
-            </a>
+            </Link>
             <div className="mt-3 flex items-center justify-center gap-3">
               <a
                 href={APP_STORE_URL}
