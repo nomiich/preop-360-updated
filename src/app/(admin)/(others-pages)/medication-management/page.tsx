@@ -11,18 +11,12 @@ export default function MedicationManagementPage() {
   return (
     <div>
       <PageBreadcrumb pageTitle="Medication Management" />
-      <div className="min-h-screen rounded-2xl border border-gray-200 bg-white px-5 py-7 dark:border-gray-800 dark:bg-white/[0.03] xl:px-10 xl:py-12">
-        <div className="mx-auto w-full max-w-[720px]">
-          <h3 className="mb-4 text-xl font-semibold text-gray-800 dark:text-white/90 sm:text-2xl">
-            Medication Management
-          </h3>
-          <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-            This page will show the patient&apos;s current medications, which
-            ones to stop before surgery, and any special perioperative
-            instructions. You can extend this section with tables, forms, or
-            checklists as needed.
-          </p>
-        </div>
+      <div className="rounded-2xl border border-gray-200 bg-white px-0 py-0 dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden h-[calc(100vh-140px)]">
+        <iframe
+          src="https://gtools.involve.me/mashup-v11-7-10-d8903686184d-copy-735a9209c22f"
+          className="h-full w-full"
+          title="Medication Management Tool"
+        />
       </div>
     </div>
   );
