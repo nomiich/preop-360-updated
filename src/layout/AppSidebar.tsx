@@ -8,6 +8,7 @@ import {
   BoxCubeIcon,
   CalenderIcon,
   ChevronDownIcon,
+  DollarLineIcon,
   GridIcon,
   HorizontaLDots,
   ListIcon,
@@ -15,7 +16,9 @@ import {
   PieChartIcon,
   PlugInIcon,
   TableIcon,
+  TaskIcon,
   UserCircleIcon,
+  CheckLineIcon,
 } from "../icons/index";
 import SidebarWidget from "./SidebarWidget";
 
@@ -31,6 +34,21 @@ const navItems: NavItem[] = [
     icon: <GridIcon />,
     name: "Dashboard",
     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+  },
+  {
+    icon: <TaskIcon />,
+    name: "Medication Management",
+    path: "/medication-management",
+  },
+  {
+    icon: <CheckLineIcon />,
+    name: "Labs to get",
+    path: "/labs-to-get",
+  },
+  {
+    icon: <DollarLineIcon />,
+    name: "Subscription",
+    path: "/subscription",
   },
   {
     icon: <CalenderIcon />,
