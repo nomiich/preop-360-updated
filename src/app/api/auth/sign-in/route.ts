@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseBrowserClient } from "@/lib/supabaseClient";
+import { createClient } from "@supabase/supabase-js";
 import { syncUserFromSupabase } from "@/lib/syncUserFromSupabase";
 
 export async function POST(request: Request) {
@@ -16,7 +16,19 @@ export async function POST(request: Request) {
     );
   }
 
-  const supabase = supabaseBrowserClient();
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.error("Supabase environment variables are not set correctly.");
+    return NextResponse.json(
+      { error: "Server configuration error. Please try again later." },
+      { status: 500 },
+    );
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
 
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
@@ -24,6 +36,7 @@ export async function POST(request: Request) {
   });
 
   if (error || !data.user || !data.session) {
+    console.error("Supabase signIn error:", error);
     return NextResponse.json(
       { error: error?.message ?? "Unable to sign in." },
       { status: 400 },
