@@ -13,7 +13,7 @@ export default function MedicationManagementPage() {
       <PageBreadcrumb pageTitle="Medication Management" />
       <div className="rounded-2xl border border-gray-200 bg-white px-0 py-0 dark:border-gray-800 dark:bg-white/[0.03] overflow-hidden h-[calc(100vh-140px)]">
         <iframe
-          src="https://gtools.involve.me/mashup-v11-7-10-d8903686184d-copy-735a9209c22f"
+          src="https://gtools.involve.me/med-management-7-19-7b418542ea82-copy-3b3a2d597182"
           className="h-full w-full"
           title="Medication Management Tool"
         />

@@ -9,6 +9,7 @@ import {
   CalenderIcon,
   ChevronDownIcon,
   DollarLineIcon,
+  DocsIcon,
   GridIcon,
   HorizontaLDots,
   ListIcon,
@@ -34,6 +35,11 @@ const navItems: NavItem[] = [
     icon: <GridIcon />,
     name: "Dashboard",
     subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+  },
+  {
+    icon: <DocsIcon />,
+    name: "Preoperative Assessment",
+    path: "/preoperative-assessment",
   },
   {
     icon: <TaskIcon />,
