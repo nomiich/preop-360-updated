@@ -1,5 +1,5 @@
 {
-  "id": "b0a14e71-de3d-4b96-a099-e5a575c88151",
+  "id": "f0e3a9f2-4635-4963-8414-a02e79582940",
   "prevId": "8a4ec9d9-a2b0-45d1-a59c-898a6fe4b449",
   "version": "7",
   "dialect": "postgresql",
@@ -48,21 +48,7 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "feedback_user_id_users_id_fk": {
-          "name": "feedback_user_id_users_id_fk",
-          "tableFrom": "feedback",
-          "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},

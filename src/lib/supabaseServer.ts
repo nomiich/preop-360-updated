@@ -1,9 +1,8 @@
-import { cookies, headers } from "next/headers";
-import { createServerClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
+import { createServerClient } from "@supabase/ssr";
 
 export function getSupabaseServerClient() {
   const cookieStore = cookies();
-  const headerStore = headers();
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
@@ -13,10 +12,12 @@ export function getSupabaseServerClient() {
         get(name: string) {
           return cookieStore.get(name)?.value;
         },
-      },
-      headers: {
-        get(name: string) {
-          return headerStore.get(name) ?? undefined;
+        // We only need read access for now; set/remove can be no-ops.
+        set() {
+          return;
+        },
+        remove() {
+          return;
         },
       },
     },

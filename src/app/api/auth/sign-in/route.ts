@@ -45,7 +45,7 @@ export async function POST(request: Request) {
 
   const userRecord = await syncUserFromSupabase(data.user);
 
-  return NextResponse.json({
+  const response = NextResponse.json({
     user: {
       id: userRecord.id,
       email: userRecord.email,
@@ -57,5 +57,15 @@ export async function POST(request: Request) {
     accessToken: data.session.access_token,
     refreshToken: data.session.refresh_token,
   });
+
+  // Simple auth cookie so middleware can protect routes.
+  response.cookies.set("auth_token", data.session.access_token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+  });
+
+  return response;
 }
 
