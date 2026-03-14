@@ -7,9 +7,13 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 export default function UserMetaCard() {
   const { user, loading, error } = useCurrentUser();
 
+  console.log("user ->", user)
+
+  const first = user?.firstName?.trim() ?? "";
+  const last = user?.lastName?.trim() ?? "";
   const fullName =
-    (user?.firstName || user?.lastName) && user
-      ? `${user.firstName ?? ""} ${user.lastName ?? ""}`.trim()
+    first || last
+      ? `${first} ${last}`.trim()
       : user?.email ?? "User";
 
   return (

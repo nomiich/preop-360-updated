@@ -5,6 +5,10 @@ import { eq } from "drizzle-orm";
 
 export async function syncUserFromSupabase(authUser: User) {
   const authUserId = authUser.id;
+  const meta = authUser.user_metadata ?? {};
+  const firstName = meta.first_name ?? null;
+  const lastName = meta.last_name ?? null;
+  const avatarUrl = meta.avatar_url ?? null;
 
   const [existing] = await db
     .select()
@@ -12,6 +16,23 @@ export async function syncUserFromSupabase(authUser: User) {
     .where(eq(users.id, authUserId));
 
   if (existing) {
+    if (
+      firstName !== null ||
+      lastName !== null ||
+      (avatarUrl !== null && existing.avatarUrl !== avatarUrl)
+    ) {
+      const [updated] = await db
+        .update(users)
+        .set({
+          firstName: firstName ?? existing.firstName,
+          lastName: lastName ?? existing.lastName,
+          avatarUrl: avatarUrl ?? existing.avatarUrl,
+          updatedAt: new Date(),
+        })
+        .where(eq(users.id, authUserId))
+        .returning();
+      return updated ?? existing;
+    }
     return existing;
   }
 
@@ -20,9 +41,9 @@ export async function syncUserFromSupabase(authUser: User) {
     .values({
       id: authUserId,
       email: authUser.email ?? "",
-      firstName: authUser.user_metadata?.first_name ?? null,
-      lastName: authUser.user_metadata?.last_name ?? null,
-      avatarUrl: authUser.user_metadata?.avatar_url ?? null,
+      firstName,
+      lastName,
+      avatarUrl,
     })
     .returning();
 

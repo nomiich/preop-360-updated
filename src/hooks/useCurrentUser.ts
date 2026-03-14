@@ -44,10 +44,20 @@ export function useCurrentUser(): UseCurrentUserState {
         }
 
         const data = await res.json();
+        const raw = data.user;
 
         if (!isMounted) return;
         setState({
-          user: data.user as CurrentUser,
+          user: raw
+            ? {
+                id: raw.id,
+                email: raw.email ?? "",
+                firstName: raw.firstName ?? raw.first_name ?? null,
+                lastName: raw.lastName ?? raw.last_name ?? null,
+                avatarUrl: raw.avatarUrl ?? raw.avatar_url ?? null,
+                isAdmin: Boolean(raw.isAdmin ?? raw.is_admin),
+              }
+            : null,
           loading: false,
           error: null,
         });

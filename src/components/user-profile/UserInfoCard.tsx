@@ -20,7 +20,9 @@ export default function UserInfoCard() {
                 First Name
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {loading ? "Loading..." : user?.firstName ?? "-"}
+                {loading
+                  ? "Loading..."
+                  : (user?.firstName?.trim() || "—")}
               </p>
             </div>
 
@@ -29,7 +31,9 @@ export default function UserInfoCard() {
                 Last Name
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {loading ? "Loading..." : user?.lastName ?? "-"}
+                {loading
+                  ? "Loading..."
+                  : (user?.lastName?.trim() || "—")}
               </p>
             </div>
 

@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { feedback } from "@/db/schema";
 
 export async function POST(request: Request) {
-  const supabase = getSupabaseServerClient();
+  const supabase = await getSupabaseServerClient();
 
   const {
     data: { user },
