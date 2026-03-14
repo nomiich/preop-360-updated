@@ -19,8 +19,9 @@ export async function POST(request: Request) {
   }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseKey = serviceRoleKey ?? anonKey;
 
   if (!supabaseUrl || !supabaseKey) {
     console.error("Supabase environment variables are not set correctly.");
@@ -50,8 +51,24 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-  // Note: depending on your Supabase email confirmation settings, `data.session`
-  // can be null here. We only require that the user record was created.
+
+  let session = data.session;
+
+  // Auto-confirm email when no session (email confirmation was required) and we have service role.
+  if (!session && data.user.id && serviceRoleKey) {
+    const { error: confirmError } = await supabase.auth.admin.updateUserById(
+      data.user.id,
+      { email_confirm: true }
+    );
+    if (!confirmError) {
+      const { data: signInData } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      session = signInData?.session ?? null;
+    }
+  }
+
   const userRecord = await syncUserFromSupabase(data.user);
 
   const response = NextResponse.json({
@@ -63,14 +80,12 @@ export async function POST(request: Request) {
       avatarUrl: userRecord.avatarUrl,
       isAdmin: userRecord.isAdmin,
     },
-    accessToken: data.session?.access_token ?? null,
-    refreshToken: data.session?.refresh_token ?? null,
+    accessToken: session?.access_token ?? null,
+    refreshToken: session?.refresh_token ?? null,
   });
 
-  // Only set auth cookie automatically if there is a session
-  // (depends on your Supabase email confirmation settings).
-  if (data.session?.access_token) {
-    response.cookies.set("auth_token", data.session.access_token, {
+  if (session?.access_token) {
+    response.cookies.set("auth_token", session.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
